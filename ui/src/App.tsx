@@ -3,13 +3,10 @@ import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>UI Service (React)</h1>
-        <p>
-          This is a placeholder for the Iris Test Generation Tool UI.
-        </p>
-      </header>
+    <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+      <h1>Hello, React + TypeScript!</h1>
+      <p>App component is working 🎉</p>
+      <p>Test hot reload abcd</p>
     </div>
   );
 }
