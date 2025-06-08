@@ -34,7 +34,7 @@ services:
     - ./agent:/app/agent
     - /app/agent/node_modules
     environment:
-    - NODE_ENV=development
+    - NODE_ENV=developmentß
 
   database:
     image: postgres:latest
