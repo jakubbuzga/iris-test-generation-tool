@@ -17,6 +17,7 @@ services:
     build: ./backend
     ports:
       - "8000:8000"
+    command: sh -c "npm run migrate:deploy && npm start"
     volumes:
       - ./backend:/app/backend
       # Mount the backend directory to /app/backend for development
