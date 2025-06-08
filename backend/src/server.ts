@@ -1,9 +1,16 @@
+import dotenv from 'dotenv';
+dotenv.config(); // Load environment variables from .env file
+
 const express = require('express');
 import { Request, Response } from 'express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
+import authRoutes from './routes/auth.routes'; // Import auth routes
 
 const app = express();
+
+// Middleware to parse JSON bodies
+app.use(express.json());
 const PORT = process.env.PORT || 8000;
 
 /**
@@ -18,7 +25,7 @@ const PORT = process.env.PORT || 8000;
  *           text/plain:
  *             schema:
  *               type: string
- *               example: Backend Service: Node.js/Express.js with Prisma (placeholder)
+ *               example: Backend Service Online
  */
 app.get('/', (req: Request, res: Response) => {
   res.send('Backend Service: Node.js/Express.js with Prisma (placeholder)');
@@ -58,10 +65,13 @@ const swaggerOptions: swaggerJSDoc.Options = {
   },
   // Path to the API docs
   // Note: You'll need to create JSDoc comments in your route files for this to work
-  apis: ['./src/server.ts'], //  Path to the API files
+  apis: ['/app/backend/src/server.ts', '/app/backend/src/routes/auth.routes.ts'], // Specific file path
 };
 
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
+
+// Mount auth routes
+app.use('/api/v1/auth', authRoutes); // Changed prefix to include /auth
 
 // Serve Swagger UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
@@ -69,3 +79,5 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.listen(PORT, () => {
   console.log(`Backend server is running on http://localhost:${PORT}`);
 });
+
+export default app; // Export the app instance for testing
