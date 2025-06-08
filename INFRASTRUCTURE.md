@@ -72,5 +72,7 @@ Based on the project's wiki specification, the following dependencies were check
 **Backend Service (`backend/package.json`):**
 - `express`: Present
 - `prisma`: **Present**
+- `swagger-ui-express`: Added for serving Swagger API documentation.
+- `swagger-jsdoc`: Added for generating Swagger API documentation from JSDoc comments.
 
 **Note:** The AI agent's dependencies (`@langchain/core`, `@langchain/openai`) are present in `agent/package.json` as per the initial exploration, aligning with the use of Langchain.js. The "pre-trained LLM model" is an external component and would not be listed as a package dependency.

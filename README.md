@@ -39,6 +39,14 @@ This project sets up the Iris Test Generation Tool as a set of microservices orc
     - **Agent**: [http://localhost:8001](http://localhost:8001) (or as configured)
     - **Database**: Accessible on port `5432` (e.g., for a database client)
 
+## API Documentation
+
+The backend service provides API documentation using Swagger UI. Once the backend server is running, you can access the Swagger UI by navigating to:
+
+- **Swagger API Docs**: [http://localhost:8000/api-docs](http://localhost:8000/api-docs)
+
+This interface allows you to view and interact with the available API endpoints.
+
 4.  **To stop the services:**
     ```bash
     docker-compose down
