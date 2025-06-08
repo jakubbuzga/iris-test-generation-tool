@@ -4,15 +4,20 @@
   "description": "Langchain.js agent service",
   "main": "agent.js",
   "scripts": {
-    "start": "node agent.js",
-    "dev": "nodemon agent.js"
+    "start": "node dist/agent.js",
+    "dev": "nodemon src/agent.ts",
+    "build": "tsc"
   },
   "dependencies": {
-    "express": "^4.17.1",
     "@langchain/core": "^0.1.0",
-    "@langchain/openai": "^0.0.1"
+    "@langchain/openai": "^0.0.1",
+    "express": "^4.17.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "@types/express": "^5.0.3",
+    "@types/node": "^22.15.30",
+    "nodemon": "^2.0.22",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
   }
 }
