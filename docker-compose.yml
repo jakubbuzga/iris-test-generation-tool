@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  ui:
+    build: ./ui
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./ui:/app/ui
+      # Mount the ui directory to /app/ui for development
+      # Add node_modules cache volume for better performance
+      - /app/ui/node_modules
+    environment:
+      - NODE_ENV=development
+
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app/backend
+      # Mount the backend directory to /app/backend for development
+      # Add node_modules cache volume for better performance
+      - /app/backend/node_modules
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://user:password@database:5432/mydb
+      # Example, adjust as per your Prisma setup
+
+  agent:
+    build: ./agent
+    ports:
+      - "8001:8001" # Assuming the agent runs on port 8001
+    volumes:
+      - ./agent:/app/agent # Mount the agent directory to /app/agent for development
+    environment:
+      - PYTHONUNBUFFERED=1 # Recommended for Python in Docker
+
+  database:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

@@ -1,0 +1,19 @@
+{
+  "name": "agent-service",
+  "version": "1.0.0",
+  "description": "Langchain.js agent service",
+  "main": "agent.js",
+  "scripts": {
+    "start": "node agent.js",
+    "dev": "nodemon agent.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "@langchain/core": "^0.1.0",
+    "@langchain/openai": "^0.0.1"
+    // Add other Langchain packages as needed, e.g., specific loaders or vector stores
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
