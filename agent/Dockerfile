@@ -22,3 +22,4 @@ EXPOSE 8001
 
 # Define the command to run the application
 CMD ["node", "dist/agent.js"]
+
