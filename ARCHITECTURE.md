@@ -1,3 +1,29 @@
+1. Overview
+This document outlines the architecture for the Iris Test Generation Tool, an AI-powered application designed to help QA engineers generate, manage, and execute API tests efficiently.
+
+The application allows registered users to upload OpenAPI specifications, which are then used by a Large Language Model (LLM) to generate complete API test cases, including requests and assertions. Users can review these tests, save the valid ones into collections, and trigger a refinement loop for invalid ones. The application also supports importing, managing, and running existing Postman collections, with detailed historical reporting for all test runs.
+
+Core Features:
+User registration and management.
+Upload and manage OpenAPI specifications.
+Generate API tests using an LLM, including Postman test scripts (assertions).
+Provide feedback (good/bad) on generated tests.
+Save validated tests into manageable Postman collections.
+Refine test generation by sending "bad" tests back to the LLM.
+Import existing Postman collections to manage and run them alongside AI-generated tests.
+Run Postman collections and view detailed, historical results for every run.
+Filter test run history by collection and status.
+2. High-Level Architecture
+The system is designed as a distributed, service-oriented architecture to ensure separation of concerns, scalability, and maintainability.
+
+Components:
+Frontend: A client-side web application providing the user interface.
+Backend: The central API server that handles business logic, user management, and orchestrates communication between all other components.
+Database: A PostgreSQL database for data persistence.
+AI Agent: A dedicated service that parses specifications, generates prompts, and manages all interactions with the LLM.
+LLM Model: A pre-trained Large Language Model.
+Test Runner Service: An isolated service responsible for executing Postman collections and reporting detailed results.
+Architectural Diagram:
 +----------------+      +----------------+      +----------------+      +-----------+
 |                |      |                |      |                |      |           |
 | User Interface |----->|     Backend    |----->|     AI Agent   |----->| LLM Model |
