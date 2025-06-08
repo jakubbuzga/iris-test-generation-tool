@@ -8,13 +8,17 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install application dependencies
-RUN npm install
+# Using --legacy-peer-deps based on previous experiences with this project
+RUN npm install --legacy-peer-deps
 
-# Bundle app source
+# Copy the rest of the application source code
 COPY . .
+
+# Compile TypeScript to JavaScript
+RUN npm run build
 
 # Expose the port the app runs on
 EXPOSE 8000
 
 # Define the command to run the application
-CMD ["node", "server.js"]
+CMD ["node", "dist/server.js"]
