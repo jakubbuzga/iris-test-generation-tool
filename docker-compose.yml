@@ -31,9 +31,10 @@ services:
     ports:
       - "8001:8001" # Assuming the agent runs on port 8001
     volumes:
-      - ./agent:/app/agent # Mount the agent directory to /app/agent for development
+    - ./agent:/app/agent
+    - /app/agent/node_modules
     environment:
-      - PYTHONUNBUFFERED=1 # Recommended for Python in Docker
+    - NODE_ENV=development
 
   database:
     image: postgres:latest
