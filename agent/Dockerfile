@@ -9,6 +9,7 @@ COPY package*.json ./
 
 # Install application dependencies
 # Using --legacy-peer-deps based on previous experiences
+RUN rm -rf node_modules
 RUN npm install --legacy-peer-deps
 
 # Bundle app source
