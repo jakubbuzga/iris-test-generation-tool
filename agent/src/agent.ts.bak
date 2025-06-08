@@ -1,5 +1,4 @@
 const express = require('express');
-import { Request, Response } from 'express';
 // Placeholder for Langchain imports, e.g.:
 // const { ChatOpenAI } = require("@langchain/openai");
 // const { HumanMessage } = require("@langchain/core/messages");
@@ -14,11 +13,11 @@ app.use(express.json());
 //   openAIApiKey: process.env.OPENAI_API_KEY, // Ensure API key is set in environment
 // });
 
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (req, res) => {
   res.send('Agent Service: Node.js/Langchain.js (placeholder)');
 });
 
-app.post('/process', async (req: Request, res: Response) => {
+app.post('/process', async (req, res) => {
   try {
     const { inputText } = req.body;
     if (!inputText) {
