@@ -1,0 +1,77 @@
+// schema.prisma
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id                 String              @id @default(cuid())
+  email              String              @unique
+  password           String
+  createdAt          DateTime            @default(now())
+  apiSpecifications  ApiSpecification[]
+  postmanCollections PostmanCollection[]
+  testRuns           TestRun[]
+}
+
+model ApiSpecification {
+  id                   String              @id @default(cuid())
+  name                 String
+  content              Json
+  user                 User                @relation(fields: [userId], references: [id])
+  userId               String
+  createdAt            DateTime            @default(now())
+  generatedCollections PostmanCollection[]
+}
+
+model PostmanCollection {
+  id                 String           @id @default(cuid())
+  name               String
+  user               User             @relation(fields: [userId], references: [id])
+  userId             String
+  apiSpecification   ApiSpecification? @relation(fields: [apiSpecificationId], references: [id])
+  apiSpecificationId String?
+  createdAt          DateTime         @default(now())
+  testCases          TestCase[]
+  testRuns           TestRun[]
+}
+
+// Unified model for all test cases, storing the complete Postman Item object.
+model TestCase {
+  id           String            @id @default(cuid())
+  // The full Postman Item JSON object, including name, request, and the event array with test scripts.
+  itemJson     Json
+  collection   PostmanCollection @relation(fields: [collectionId], references: [id])
+  collectionId String
+  createdAt    DateTime          @default(now())
+}
+
+// Stores a summary of a single collection run
+model TestRun {
+  id                  String             @id @default(cuid())
+  runAt               DateTime           @default(now())
+  status              String             // "PENDING", "COMPLETED", "FAILED"
+  postmanCollection   PostmanCollection  @relation(fields: [postmanCollectionId], references: [id])
+  postmanCollectionId String
+  user                User               @relation(fields: [userId], references: [id])
+  userId              String
+  summary             Json?              // Store Newman's run.stats and run.timings
+  executions          TestRunExecution[]
+}
+
+// Stores the detailed result of a single request within a TestRun
+model TestRunExecution {
+  id              String   @id @default(cuid())
+  testRun         TestRun  @relation(fields: [testRunId], references: [id])
+  testRunId       String
+  requestName     String
+  requestDetails  Json
+  responseDetails Json?
+  assertions      Json?    // Store Newman's execution.assertions array
+  status          String   // "passed" or "failed"
+}
