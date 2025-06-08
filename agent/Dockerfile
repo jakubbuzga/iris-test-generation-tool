@@ -9,7 +9,6 @@ COPY package*.json ./
 
 # Install application dependencies
 # Using --legacy-peer-deps based on previous experiences
-RUN rm -rf node_modules
 RUN npm install --legacy-peer-deps
 
 # Bundle app source
@@ -23,3 +22,4 @@ EXPOSE 8001
 
 # Define the command to run the application
 CMD ["node", "dist/agent.js"]
+
