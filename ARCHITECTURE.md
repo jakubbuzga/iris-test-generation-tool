@@ -8,14 +8,14 @@ The application follows a microservices-based architecture, with distinct servic
 
 ### UI Service
 
-- **Technology:** React (using Create React App)
+- **Technology:** React (using Create React App), Zustand, Axios, Tailwind UI, SCSS
 - **Purpose:** Provides the frontend user interface for the Iris Test Generation Tool. Users interact with this service to input data, trigger test generation, and view results.
 - **Port:** Runs on port `3000`.
 - **Dockerfile:** `ui/Dockerfile`
 
 ### Backend Service
 
-- **Technology:** Node.js with Express.js
+- **Technology:** Node.js with Express.js, Prisma
 - **Purpose:** Handles the core business logic of the application. This includes processing user requests from the UI, interacting with the database, and potentially communicating with the `agent` service for AI-powered tasks.
 - **Database:** Connects to a PostgreSQL database (defined as the `database` service) for data persistence.
 - **Port:** Runs on port `8000`.
@@ -23,7 +23,7 @@ The application follows a microservices-based architecture, with distinct servic
 
 ### Agent Service
 
-- **Technology:** Node.js with Express.js, utilizing the Langchain.js library.
+- **Technology:** Node.js with Express.js, utilizing the Langchain.js library and a pre-trained LLM model.
 - **Purpose:** Provides AI-powered capabilities, likely for test case generation or analysis. It is designed to interact with large language models (LLMs) via Langchain.js.
 - **Port:** Runs on port `8001`.
 - **Dockerfile:** `agent/Dockerfile`
@@ -56,3 +56,21 @@ Once started, the services will be accessible at their respective ports:
 - Database: `localhost:5432` (typically accessed by the backend service)
 
 To stop the application, run: `docker-compose down`
+
+## Dependency Verification
+
+Based on the project's wiki specification, the following dependencies were checked:
+
+**UI Service (`ui/package.json`):**
+- `react`: Present
+- `react-dom`: Present
+- `zustand`: **Present**
+- `axios`: **Present**
+- `tailwindcss`: **Present**
+- `sass`: **Present**
+
+**Backend Service (`backend/package.json`):**
+- `express`: Present
+- `prisma`: **Present**
+
+**Note:** The AI agent's dependencies (`@langchain/core`, `@langchain/openai`) are present in `agent/package.json` as per the initial exploration, aligning with the use of Langchain.js. The "pre-trained LLM model" is an external component and would not be listed as a package dependency.
