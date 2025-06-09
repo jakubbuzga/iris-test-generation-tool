@@ -52,7 +52,7 @@ describe('Auth Endpoints', () => {
   let registeredUserEmailForLoginTest: string;
   let registeredUserPasswordForLoginTest: string;
 
-  describe('POST /api/v1/auth/register', () => {
+  describe('POST /auth/register', () => {
     it('should register a user successfully with valid credentials', async () => {
       const testEmail = uniqueEmail('success');
       registeredUserEmailForLoginTest = testEmail; // Save for login test
@@ -63,7 +63,7 @@ describe('Auth Endpoints', () => {
       mockUserCreate.mockResolvedValue(mockCreatedUser);
 
       const res = await request(app)
-        .post('/api/v1/auth/register')
+        .post('/auth/register')
         .send({ email: testEmail, password: validPassword });
 
       expect(res.statusCode).toEqual(201);
@@ -83,7 +83,7 @@ describe('Auth Endpoints', () => {
       mockUserFindUnique.mockResolvedValue({ id: 'mockIdExists', email: testEmail, password: 'hashedPassword' }); // Simulate user found
 
       const res = await request(app)
-        .post('/api/v1/auth/register')
+        .post('/auth/register')
         .send({ email: testEmail, password: validPassword });
 
       expect(res.statusCode).toEqual(409);
@@ -100,7 +100,7 @@ describe('Auth Endpoints', () => {
       mockUserCreate.mockResolvedValue({ id: 'mockIdFormatTest', email: testEmail, password: 'hashedPasswordPlaceholder' });
 
       const res = await request(app)
-        .post('/api/v1/auth/register')
+        .post('/auth/register')
         .send({ email: testEmail, password: validPassword });
 
       expect(res.statusCode).toEqual(201);
@@ -110,7 +110,7 @@ describe('Auth Endpoints', () => {
 
     it('should return 400 for missing email', async () => {
       const res = await request(app)
-        .post('/api/v1/auth/register')
+        .post('/auth/register')
         .send({ password: validPassword });
       expect(res.statusCode).toEqual(400);
       expect(res.body).toHaveProperty('message', 'Email and password are required and must be strings.');
@@ -118,7 +118,7 @@ describe('Auth Endpoints', () => {
 
     it('should return 400 for missing password', async () => {
       const res = await request(app)
-        .post('/api/v1/auth/register')
+        .post('/auth/register')
         .send({ email: uniqueEmail('missingpass') });
       expect(res.statusCode).toEqual(400);
       expect(res.body).toHaveProperty('message', 'Email and password are required and must be strings.');
@@ -136,7 +136,7 @@ describe('Auth Endpoints', () => {
     passwordTestCases.forEach(tc => {
       it(`should return ${tc.code} for ${tc.desc}`, async () => {
         const res = await request(app)
-          .post('/api/v1/auth/register')
+          .post('/auth/register')
           .send({ email: uniqueEmail(tc.desc.replace(/[^a-zA-Z0-9]/g, '')), password: tc.pass });
         expect(res.statusCode).toEqual(tc.code);
         expect(res.body).toHaveProperty('message', expectedPasswordErrorMessage);
@@ -144,7 +144,7 @@ describe('Auth Endpoints', () => {
     });
   });
 
-  describe('POST /api/v1/auth/login', () => {
+  describe('POST /auth/login', () => {
     // This user is intended to be "created" by the successful registration test.
     // For robustness in case test order changes or that test fails, we might need a beforeAll here
     // to ensure a user exists for login tests using the mocks.
@@ -172,7 +172,7 @@ describe('Auth Endpoints', () => {
       mockUserFindUnique.mockResolvedValue(mockStoredUser); // User found
 
       const res = await request(app)
-        .post('/api/v1/auth/login')
+        .post('/auth/login')
         .send({ email: emailToLogin, password: passwordToLogin });
 
       expect(res.statusCode).toEqual(200);
@@ -198,7 +198,7 @@ describe('Auth Endpoints', () => {
       mockUserFindUnique.mockResolvedValue(mockStoredUser); // User found
 
       const res = await request(app)
-        .post('/api/v1/auth/login')
+        .post('/auth/login')
         .send({ email: emailToLogin, password: incorrectPassword });
       expect(res.statusCode).toEqual(401);
       expect(res.body).toHaveProperty('message', 'Invalid email or password.');
@@ -209,7 +209,7 @@ describe('Auth Endpoints', () => {
       mockUserFindUnique.mockResolvedValue(null); // User not found
 
       const res = await request(app)
-        .post('/api/v1/auth/login')
+        .post('/auth/login')
         .send({ email: nonExistentEmail, password: validPassword });
       expect(res.statusCode).toEqual(401);
       expect(res.body).toHaveProperty('message', 'Invalid email or password.');
@@ -217,7 +217,7 @@ describe('Auth Endpoints', () => {
 
     it('should return 400 for login with missing email', async () => {
       const res = await request(app)
-        .post('/api/v1/auth/login')
+        .post('/auth/login')
         .send({ password: validPassword });
       expect(res.statusCode).toEqual(400);
       expect(res.body).toHaveProperty('message', 'Email and password are required and must be strings.');
@@ -225,7 +225,7 @@ describe('Auth Endpoints', () => {
 
     it('should return 400 for login with missing password', async () => {
       const res = await request(app)
-        .post('/api/v1/auth/login')
+        .post('/auth/login')
         .send({ email: registeredUserEmailForLoginTest });
       expect(res.statusCode).toEqual(400);
       expect(res.body).toHaveProperty('message', 'Email and password are required and must be strings.');

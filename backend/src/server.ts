@@ -71,7 +71,7 @@ const swaggerOptions: swaggerJSDoc.Options = {
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
 
 // Mount auth routes
-app.use('/api/v1/auth', authRoutes); // Changed prefix to include /auth
+app.use('/auth', authRoutes); // Changed prefix to include /auth
 
 // Serve Swagger UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
