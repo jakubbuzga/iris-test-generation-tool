@@ -4,7 +4,13 @@ import jwt from 'jsonwebtoken';
 
 const prisma = new PrismaClient();
 
-const JWT_SECRET = 'YOUR_SECRET_KEY'; // Placeholder for JWT secret
+// Check for JWT_SECRET in environment variables
+if (!process.env.JWT_SECRET) {
+  console.error("FATAL ERROR: JWT_SECRET is not defined in environment variables.");
+  // In a real app, you might want to exit the process or prevent server start more gracefully
+  throw new Error("FATAL ERROR: JWT_SECRET is not defined. Server cannot start without it.");
+}
+const JWT_SECRET = process.env.JWT_SECRET;
 
 /**
  * Registers a new user.
